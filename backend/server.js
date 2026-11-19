@@ -108,7 +108,7 @@ const studentSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const student = mongoose.model("student", studentSchema);
+const Student = mongoose.model("student", studentSchema);
 
 const courseSchema = new mongoose.Schema(
   {
