@@ -17,10 +17,6 @@ app.use(express.static("public")); //static here means images, files, and js fil
 mongoose
   .connect(
     process.env.MONGODB_URI || "mongodb://localhost:27017/student-management",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    },
   )
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.log("MongoDB connection error:", err));
@@ -485,4 +481,26 @@ app.get("/api/students/:id", async (req, res) => {
     logger.error("Error fetching student:", error);
     res.status(404).json({ message: "Student does not exit" });
   }
+});
+
+// Helper function to format uptime
+function formatUptime(seconds) {
+  const days = Math.floor(seconds / (3600 * 24));
+  const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+
+  const parts = [];
+  if (days > 0) parts.push(`${days}d`);
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0) parts.push(`${minutes}m`);
+  if (remainingSeconds > 0) parts.push(`${remainingSeconds}s`);
+
+  return parts.join(" ") || "0s";
+}
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on ${PORT}`);
 });
